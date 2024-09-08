@@ -1,0 +1,87 @@
+-- this shit stinks as fuck!
+if not G2L then
+    G2L = {}
+end
+
+-- Ensure ScreenGui exists
+if not G2L["ScreenGui"] then
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+    G2L["ScreenGui"] = screenGui
+end
+
+local TweenService = game:GetService("TweenService")
+
+local notificationSound = Instance.new("Sound", G2L["ScreenGui"])
+notificationSound.SoundId = "rbxassetid://3398620867" -- Custom notification sound
+notificationSound.Volume = 0.5
+
+-- Function to show custom notification
+local function ShowNotification(title, text)
+    notificationSound:Play()
+
+    local notificationFrame = Instance.new("Frame")
+    notificationFrame.Parent = G2L["ScreenGui"]
+    notificationFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    notificationFrame.BackgroundTransparency = 0.5
+    notificationFrame.Size = UDim2.new(0, 300, 0, 100)
+    notificationFrame.Position = UDim2.new(0.5, -150, 0.3, 0)
+    notificationFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+    notificationFrame.BorderSizePixel = 0 -- Remove the border outline
+
+    -- Add UICorner for rounded corners
+    local corner = Instance.new("UICorner")
+    corner.Parent = notificationFrame
+    corner.CornerRadius = UDim.new(0, 20) -- Adjust the radius for more or less rounding
+
+    local bellIcon = Instance.new("ImageLabel")
+    bellIcon.Parent = notificationFrame
+    bellIcon.Size = UDim2.new(0, 50, 0, 50)
+    bellIcon.Position = UDim2.new(0, 10, 0.5, -25)
+    bellIcon.Image = "rbxassetid://6023426923" -- White bell image
+    bellIcon.BackgroundTransparency = 1
+
+    local titleLabel = Instance.new("TextLabel")
+    titleLabel.Parent = notificationFrame
+    titleLabel.Size = UDim2.new(0, 200, 0, 30)
+    titleLabel.Position = UDim2.new(0, 70, 0.2, 0)
+    titleLabel.BackgroundTransparency = 1
+    titleLabel.Text = title
+    titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    titleLabel.TextScaled = true
+    titleLabel.Font = Enum.Font.SourceSans
+
+    local messageLabel = Instance.new("TextLabel")
+    messageLabel.Parent = notificationFrame
+    messageLabel.Size = UDim2.new(0, 200, 0, 30)
+    messageLabel.Position = UDim2.new(0, 70, 0.5, 0)
+    messageLabel.BackgroundTransparency = 1
+    messageLabel.Text = text
+    messageLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    messageLabel.TextScaled = true
+    messageLabel.Font = Enum.Font.SourceSans
+
+    -- Tween for bouncy balls (rell)
+    local bounceTween = TweenService:Create(notificationFrame, TweenInfo.new(0.5, Enum.EasingStyle.Bounce, Enum.EasingDirection.Out), {Position = UDim2.new(0.5, -150, 0.25, 0)})
+    bounceTween:Play()
+
+    wait(0.5)  -- Wait for the bounce to finish
+
+    -- useless taper fade for the notification
+    local fadeTween = TweenService:Create(notificationFrame, TweenInfo.new(1, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {BackgroundTransparency = 1})
+    
+    -- Connect to the Completed event
+    fadeTween.Completed:Connect(function()
+        notificationFrame:Destroy() -- Destroy the notification frame after the fade animation is complete
+    end)
+
+    fadeTween:Play()
+
+    wait(5)  -- Wait for the idk to be visible for 5 seconds
+end
+
+-- Example of showing notification
+ShowNotification("Notice", "Chat in the textbox!")
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/John142-dot/bypassware/main/zbypass"))()
+-- main script fr
